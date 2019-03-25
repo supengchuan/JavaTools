@@ -57,6 +57,7 @@ public class RSAUtil {
 
     /**
      * 直接使用公钥和私钥初始化对象
+     *
      * @param key_pub 公钥
      * @param key_pri 私钥
      * @throws Exception 异常
@@ -69,6 +70,7 @@ public class RSAUtil {
 
     /**
      * 使用公钥和私钥的byte[] 对象初始化对象
+     *
      * @param bytes_pub 公钥
      * @param bytes_pri 私钥
      * @throws Exception
@@ -90,6 +92,7 @@ public class RSAUtil {
 
     /**
      * 使用字符串对象初始化对象
+     *
      * @param str_pub 公钥字符串
      * @param str_pri 私钥字符串
      * @throws Exception
@@ -113,12 +116,27 @@ public class RSAUtil {
 
     /**
      * 使用文件对象初始化对象
+     *
      * @param file_pub 公钥文件
      * @param file_pri 私钥文件
      * @throws Exception
      */
     public RSAUtil(File file_pub, File file_pri) throws Exception {
+        KeyFactory keyFactory = KeyFactory.getInstance("rsa");
+        if (file_pub != null) {
+            String str_pub = FileUtil.readStringFile(file_pub);
+            byte[] bytes_pub = Base64.decode(str_pub);
+            X509EncodedKeySpec keySpec_pub = new X509EncodedKeySpec(bytes_pub);
+            this.key_pub = (RSAPublicKey) keyFactory.generatePublic(keySpec_pub);
+        }
 
+        if (file_pub != null) {
+            String str_pri = FileUtil.readStringFile(file_pri);
+            byte[] bytes_pri = Base64.decode(str_pri);
+            PKCS8EncodedKeySpec keySpec_pri = new PKCS8EncodedKeySpec(bytes_pri);
+            this.key_pri = (RSAPrivateKey) keyFactory.generatePrivate(keySpec_pri);
+        }
+        check();
     }
 
     public static void genKeyFile(String dir_path, int keySize) throws Exception {
@@ -147,10 +165,10 @@ public class RSAUtil {
         PrintWriter out2;
 
         out1 = new PrintWriter(path + "id_rsa.pub");
-        out2 = new PrintWriter(path + "id+rsa.pri");
+        out2 = new PrintWriter(path + "id_rsa.pri");
 
-        out1.write(rsaPrivateKeyString);
-        out2.write(rsaPublicKeyString);
+        out1.write(rsaPublicKeyString);
+        out2.write(rsaPrivateKeyString);
 
         out1.close();
         out2.close();

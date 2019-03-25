@@ -17,5 +17,15 @@
         <jarDirectory url="file://$MODULE_DIR$/../jpbc-2.0.0/jars" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$USER_HOME$/Desktop/jpbc-2.0.0/jars" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$USER_HOME$/Desktop/jpbc-2.0.0/jars" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
