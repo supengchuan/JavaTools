@@ -74,8 +74,7 @@ public class CLSignature {
     public boolean userVerify(SignatureBody signatureBody, Element c) {
         boolean res = true;
 
-        res &= pairing.pairing(signatureBody.getA(), Y).equals(
-                pairing.pairing(g, signatureBody.getB()));
+        res &= verifyAYGB(signatureBody.getA(), signatureBody.getB());
         if (!res) return false;
         res &= pairing.pairing(X, signatureBody.getA()).mul(pairing.pairing(X, signatureBody.getB()).powZn(c))
                 .equals(pairing.pairing(g, signatureBody.getC()));
@@ -83,26 +82,38 @@ public class CLSignature {
     }
 
     /**
-     *
      * @param signatureBody 领知识证明的签名三元组
-     * @param r 随机数
-     * @param vxy 证明者计算的v_{xy}^c
+     * @param r             随机数
+     * @param vxy           证明者计算的v_{xy}^c
      * @return 验证是否真的具有签名
      */
     public boolean zkpfVerify(SignatureBody signatureBody, Element r, Element vxy) {
-        Element vs = pairing.pairing(g, signatureBody.getC());
-        Element vx = pairing.pairing(X, signatureBody.getA());
-
         boolean res = true;
-        res &= pairing.pairing(signatureBody.getA(), Y).equals(
-                pairing.pairing(g, signatureBody.getB()));
+
+        res &= verifyAYGB(signatureBody.getA(), signatureBody.getB());
         if (!res) {
             return false;
         }
 
-        res &= vs.powZn(r).equals(vx.mul(vxy));
+        Element vs = pairing.pairing(g, signatureBody.getC());
+        Element vx = pairing.pairing(X, signatureBody.getA());
+
+        res &= vs.equals(vx.mul(vxy).powZn(r));
 
         return res;
+    }
+
+    public SignatureBody zkpfBody(SignatureBody signatureBody, Element r, Element r1) {
+        Element a = signatureBody.getA().powZn(r1).getImmutable();
+        Element b = signatureBody.getB().powZn(r1).getImmutable();
+        Element c = signatureBody.getC().powZn(r1).powZn(r).getImmutable();
+        SignatureBody retBody = new SignatureBody(a, b, c);
+        return retBody;
+    }
+
+    private boolean verifyAYGB(Element a, Element b) {
+        return pairing.pairing(a, Y).equals(
+                pairing.pairing(g, b));
     }
 
     public Element getAlpha() {
