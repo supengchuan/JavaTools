@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.supc.controller.MainStageController">
+    <children>
+        <Text layoutX="575.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="匿名打车系统">
+            <font>
+                <Font size="36.0"/>
+            </font>
+        </Text>
+        <Button fx:id="registerServiceButton" layoutX="172.0" layoutY="595.0" mnemonicParsing="false"
+                onAction="#startRegisterService" prefHeight="46.0" prefWidth="115.0" text="注册服务">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Button>
+        <Button fx:id="taxiServiceButton" layoutX="626.0" layoutY="595.0" mnemonicParsing="false"
+                onAction="#startTaxiService" prefHeight="46.0"
+                prefWidth="115.0" text="打车服务">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Button>
+        <Button fx:id="rechargeServiceButton" layoutX="1085.0" layoutY="595.0" mnemonicParsing="false"
+                onAction="#startRechargeService" prefHeight="46.0"
+                prefWidth="115.0" text="充值服务">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Button>
+        <TextArea fx:id="registerServiceText" layoutX="77.0" layoutY="177.0" prefHeight="394.0" prefWidth="305.0"/>
+        <TextArea fx:id="taxiServiceText" layoutX="531.0" layoutY="177.0" prefHeight="394.0" prefWidth="305.0"/>
+        <TextArea fx:id="rechargeServiceText" layoutX="990.0" layoutY="177.0" prefHeight="394.0" prefWidth="305.0"/>
+        <Text fx:id="quit" layoutX="1259.0" layoutY="74.0" onMouseClicked="#eventQuit" strokeType="OUTSIDE"
+              strokeWidth="0.0" text="退出">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Text>
+    </children>
+</AnchorPane>

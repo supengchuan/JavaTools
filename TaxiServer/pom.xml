@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.supc</groupId>
+    <artifactId>TaxiServer</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <!--jpbc start-->
+        <dependency>
+            <groupId>jpbc-2.0.0</groupId>
+            <artifactId>jpbc-crypto-2.0.0</artifactId>
+            <version>2.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/LocalJars/jpbc-crypto-2.0.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>jpbc-2.0.0</groupId>
+            <artifactId>jpbc-api-2.0.0</artifactId>
+            <version>2.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/LocalJars/jpbc-api-2.0.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>jpbc-2.0.0</groupId>
+            <artifactId>jpbc-benchmark-2.0.0</artifactId>
+            <version>2.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/LocalJars/jpbc-benchmark-2.0.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>jpbc-2.0.0</groupId>
+            <artifactId>jpbc-pbc-2.0.0</artifactId>
+            <version>2.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/LocalJars/jpbc-pbc-2.0.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>jpbc-2.0.0</groupId>
+            <artifactId>jpbc-mm-2.0.0</artifactId>
+            <version>2.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/LocalJars/jpbc-mm-2.0.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>jpbc-2.0.0</groupId>
+            <artifactId>jpbc-plaf-2.0.0</artifactId>
+            <version>2.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/LocalJars/jpbc-plaf-2.0.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>jna</groupId>
+            <artifactId>jna-3.2.5</artifactId>
+            <version>3.2.5</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/LocalJars/jna-3.2.5.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>bcprov-jdk16-1.46</groupId>
+            <artifactId>bcprov-jdk1</artifactId>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/LocalJars/bcprov-jdk16-1.46.jar</systemPath>
+        </dependency>
+        <!--jpbc end-->
+    </dependencies>
+
+</project>
