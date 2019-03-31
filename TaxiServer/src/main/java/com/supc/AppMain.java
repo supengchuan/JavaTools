@@ -21,7 +21,6 @@ public class AppMain extends Application {
 
         stageController.setPrimaryStage("primaryStage", primaryStage);
         stageController.loadStage(mainViewID, mainViewRes, StageStyle.UNDECORATED);
-
         stageController.setStage(mainViewID);
     }
 }

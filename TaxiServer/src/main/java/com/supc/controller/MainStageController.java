@@ -1,11 +1,16 @@
 package com.supc.controller;
 
+import com.supc.CLSignature.CLParamters;
 import com.supc.CLSignature.CLSignature;
+import com.supc.TaxiService.MyService;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -14,48 +19,38 @@ public class MainStageController implements ControlledStage, Initializable {
     private static final String mainViewID = "MainViewID";
 
     @FXML
-    private Button registerServiceButton;
-    @FXML
-    private TextArea registerServiceText;
-
-    @FXML
-    private Button taxiServiceButton;
-    @FXML
-    private TextArea taxiServiceText;
-    @FXML
-    private Button rechargeServiceButton;
-    @FXML
-    private TextArea rechargeServiceText;
-
-    private CLSignature signature = null;
-
+    private TextArea serviceText;
 
     public void setStageController(StageController stageController) {
         this.stageController = stageController;
     }
 
     public void initialize(URL location, ResourceBundle resources) {
+        new Thread(() -> {
+            try {
+                final ServerSocket serverSocket = new ServerSocket(10000);
+                Platform.runLater(() -> {
+                    serviceText.appendText("现在开始服务，等待用户连接........\n");
+                });
+                while (true) {
+                    final Socket socket = serverSocket.accept();
+                    CLParamters paramters = CLParamters.getInstance();
+                    CLSignature cl = new CLSignature(paramters.getPairing(), paramters.getG(), paramters.getX(), paramters.getY(), paramters.getAlpha());
+
+                    new Thread(new MyService(socket, cl, paramters, serviceText)).start();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
+    @FXML
     public void eventQuit() {
         stageController.getStage(mainViewID).close();
     }
 
-    //响应注册服务
-    public void startRegisterService() {
-        registerServiceText.setWrapText(true);
-        registerServiceText.appendText("启动注册服务\n");
 
-
-    }
-
-    public void startTaxiService() {
-        taxiServiceText.setWrapText(true);
-        taxiServiceText.appendText("启动打车服务");
-    }
-
-    public void startRechargeService() {
-        rechargeServiceText.setWrapText(true);
-        rechargeServiceText.appendText("启动充值服务");
-    }
 }
+
+

@@ -39,7 +39,7 @@ public class CLSignature {
 
     //g,X,Y,pairing
     public CLPK getPK() {
-        return new CLPK(this.pairing, this.g, this.X, this.Y);
+        return new CLPK(this.g, this.X, this.Y);
     }
 
     public void setCLPK(Pairing pairing, Element g, Element X, Element Y) {

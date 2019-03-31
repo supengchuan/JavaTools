@@ -25,6 +25,7 @@ public class Test {
 
         System.out.println(k);
 
+        if (g.equals(k)) System.out.println("haode ");
         //做幂运算
         Element gr = g.powZn(r).getImmutable();
         Element hr = h.powZn(r).getImmutable();

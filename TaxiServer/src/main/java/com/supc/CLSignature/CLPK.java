@@ -1,52 +1,42 @@
 package com.supc.CLSignature;
 
 import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Pairing;
 
 import java.io.Serializable;
 
 public class CLPK implements Serializable {
-    private Element g;
-    private Element X;
-    private Element Y;
-    private Pairing pairing;
+    private byte[] g;
+    private byte[] X;
+    private byte[] Y;
 
-    public CLPK(Pairing pairing, Element g, Element X, Element Y) {
-        this.pairing = pairing;
-        this.g = g;
-        this.X = X;
-        this.Y = Y;
+    public CLPK(Element g, Element X, Element Y) {
+
+        this.g = g.toBytes();
+        this.X = X.toBytes();
+        this.Y = Y.toBytes();
     }
 
-    public void setG(Element g) {
-        this.g = g;
-    }
-
-    public void setX(Element x) {
-        X = x;
-    }
-
-    public void setY(Element y) {
-        Y = y;
-    }
-
-    public void setPairing(Pairing pairing) {
-        this.pairing = pairing;
-    }
-
-    public Element getG() {
+    public byte[] getG() {
         return g;
     }
 
-    public Element getX() {
+    public void setG(byte[] g) {
+        this.g = g;
+    }
+
+    public byte[] getX() {
         return X;
     }
 
-    public Element getY() {
+    public void setX(byte[] x) {
+        X = x;
+    }
+
+    public byte[] getY() {
         return Y;
     }
 
-    public Pairing getPairing() {
-        return pairing;
+    public void setY(byte[] y) {
+        Y = y;
     }
 }

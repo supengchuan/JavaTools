@@ -1,15 +1,18 @@
 package com.supc.TaxiService;
 
+import com.supc.CLSignature.CLParamters;
 import com.supc.CLSignature.CLSignature;
 import com.supc.CLSignature.SignatureBody;
 import com.supc.CLSignature.ZKPFBody;
 import com.supc.Entity.AnonymousUser;
 import com.supc.Entity.RealNameUser;
+import javafx.scene.control.TextArea;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 public class RegisterService {
@@ -17,7 +20,16 @@ public class RegisterService {
     private int port;
 
 
-    public static void invoke(final Socket socket, final CLSignature clSignature) throws IOException {
+    public static void invoke(TextArea textArea) throws IOException {
+        System.out.println("textArea.appendText(\"后台监听服务...\\n\");");
+        ServerSocket serverSocket = new ServerSocket(10000);
+        final Socket socket = serverSocket.accept();
+
+        //CL参数采用单例模式，全局只实例化一次
+        CLParamters clParamters = CLParamters.getInstance();
+        final CLSignature clSignature = new CLSignature(clParamters.getPairing(), clParamters.getG(), clParamters.getX(),
+                clParamters.getY(), clParamters.getAlpha());
+
         new Thread(
                 new Runnable() {
                     public void run() {
