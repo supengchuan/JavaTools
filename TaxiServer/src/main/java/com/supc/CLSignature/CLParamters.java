@@ -16,8 +16,8 @@ public class CLParamters {
         String properties = "a.properties";
         this.pairing = PairingFactory.getPairing(properties);
         this.alpha = pairing.getZr().newRandomElement().getImmutable();
-        this.x = pairing.getZr().newRandomElement().getImmutable();
-        this.y = pairing.getZr().newRandomElement().getImmutable();
+        this.x = pairing.getZr().newElement(14);
+        this.y = pairing.getZr().newElement(15);
         this.g = pairing.getG1().newRandomElement().getImmutable();
     }
 

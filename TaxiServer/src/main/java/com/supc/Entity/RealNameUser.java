@@ -1,14 +1,12 @@
 package com.supc.Entity;
 
-import it.unisa.dia.gas.jpbc.Element;
-
 import java.io.Serializable;
 
 public class RealNameUser implements Serializable {
     private String userId;
     private String phoneNum;
     private String password;
-    private Element C;
+    private byte[] C;
 
     public RealNameUser() {
     }
@@ -43,11 +41,11 @@ public class RealNameUser implements Serializable {
         this.password = password;
     }
 
-    public Element getC() {
+    public byte[] getC() {
         return C;
     }
 
-    public void setC(Element c) {
+    public void setC(byte[] c) {
         C = c;
     }
 }

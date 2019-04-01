@@ -32,7 +32,8 @@ public class MyService implements Runnable, MessageType {
         try {
             is = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
             os = new ObjectOutputStream(socket.getOutputStream());
-        } catch (IOException e){}
+        } catch (IOException e) {
+        }
 
     }
 
@@ -44,14 +45,20 @@ public class MyService implements Runnable, MessageType {
             Message sendBack = null;
             switch (m.getType()) {
                 case GET_CL_PK:
-                    System.out.println(clSignature.getG());
+                    Platform.runLater(() -> textArea.appendText("有一个用户启动，并获取了CL公钥参数....\n"));
                     CLPK clpk = clSignature.getPK();
                     sendBack = new Message(GET_CL_PK, clpk);
                     break;
                 case REAL_NAME_REG: {
+                    System.out.println("实名注册服务器。。。");
                     RealNameUser user = (RealNameUser) m.getBody();
-                    SignatureBody signatureBody = clSignature.sign(user.getC());
-                    sendBack = new Message(REAL_NAME_REG, signatureBody);
+                    //System.out.println(clSignature.getPairing().getG1().newElementFromBytes(user.getC()));
+                    Platform.runLater(() -> textArea.appendText("实名注册服务---->>> 用户名： " + user.getUserId()));
+                    SignatureBody signatureBody = clSignature.sign(clSignature.getPairing().getG1().newElementFromBytes(user.getC()));
+                    SignatureBodyBytes bodyBytes = new SignatureBodyBytes(signatureBody.getA().toBytes(),
+                            signatureBody.getB().toBytes(), signatureBody.getC().toBytes());
+
+                    sendBack = new Message(REAL_NAME_REG, bodyBytes);
 
                     break;
                 }
@@ -66,9 +73,14 @@ public class MyService implements Runnable, MessageType {
 
                     break;
                 }
+                case REAL_USER_LOGIN: {
+                    Platform.runLater(() -> textArea.appendText("一个用户登录了系统.....\n"));
+                    sendBack = new Message(REAL_USER_LOGIN, new Boolean(true));
+                    break;
+                }
             }
             System.out.println("准备写入数据....");
-            System.out.println(sendBack.getType() + sendBack.getBody().getClass().getName());
+            //System.out.println(sendBack.getType() + sendBack.getBody().getClass().getName());
             os.writeObject(sendBack);
             os.flush();
 

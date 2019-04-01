@@ -32,11 +32,14 @@ public class MainStageController implements ControlledStage, Initializable {
                 Platform.runLater(() -> {
                     serviceText.appendText("现在开始服务，等待用户连接........\n");
                 });
+
+                CLParamters paramters = CLParamters.getInstance();
+                //System.out.println(paramters.getG().toBytes());
+                CLSignature cl = new CLSignature(paramters.getPairing(), paramters.getG(), paramters.getX(), paramters.getY(), paramters.getAlpha());
+
+
                 while (true) {
                     final Socket socket = serverSocket.accept();
-                    CLParamters paramters = CLParamters.getInstance();
-                    CLSignature cl = new CLSignature(paramters.getPairing(), paramters.getG(), paramters.getX(), paramters.getY(), paramters.getAlpha());
-
                     new Thread(new MyService(socket, cl, paramters, serviceText)).start();
                 }
             } catch (IOException e) {

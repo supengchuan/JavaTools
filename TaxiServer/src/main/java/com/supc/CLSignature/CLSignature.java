@@ -7,8 +7,8 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 public class CLSignature {
     private Element g;
     private Element alpha;
-    private Element x;
-    private Element y;
+    private Element sx;
+    private Element sy;
     private Element X;
     private Element Y;
     private Pairing pairing;
@@ -17,24 +17,24 @@ public class CLSignature {
     public CLSignature() {
     }
 
-    public CLSignature(Pairing pairing, Element g, Element x, Element y, Element alpha) {
+    public CLSignature(Pairing pairing, Element g, Element sx, Element sy, Element alpha) {
         this.g = g;
         this.alpha = alpha;
-        this.x = x;
-        this.y = y;
+        this.sx = sx;
+        this.sy = sy;
         this.pairing = pairing;
-        this.X = g.powZn(x).getImmutable();
-        this.Y = g.powZn(y).getImmutable();
+        this.X = g.powZn(sx).getImmutable();
+        this.Y = g.powZn(sy).getImmutable();
     }
 
     public CLSignature(String properties) {
         this.pairing = PairingFactory.getPairing(properties);
         this.alpha = pairing.getZr().newRandomElement().getImmutable();
-        this.x = pairing.getZr().newRandomElement().getImmutable();
-        this.y = pairing.getZr().newRandomElement().getImmutable();
+        this.sx = pairing.getZr().newRandomElement().getImmutable();
+        this.sy = pairing.getZr().newRandomElement().getImmutable();
         this.g = pairing.getG1().newRandomElement().getImmutable();
-        this.X = g.powZn(x).getImmutable();
-        this.Y = g.powZn(y).getImmutable();
+        this.X = g.powZn(sx).getImmutable();
+        this.Y = g.powZn(sy).getImmutable();
     }
 
     //g,X,Y,pairing
@@ -55,8 +55,9 @@ public class CLSignature {
      */
     public SignatureBody sign(Element m) {
         Element a = g.powZn(alpha).getImmutable();
-        Element b = a.powZn(y).getImmutable();
-        Element c = a.powZn(x).mul(m.powZn(alpha.mul(x).mul(y))).getImmutable();
+        //System.out.println(a.toBytes());
+        Element b = a.powZn(sy).getImmutable();
+        Element c = a.powZn(sx).mul(m.powZn(alpha.mul(sx).mul(sy))).getImmutable();
         return new SignatureBody(a, b, c);
     }
 
@@ -75,6 +76,7 @@ public class CLSignature {
         boolean res = true;
 
         res &= verifyAYGB(signatureBody.getA(), signatureBody.getB());
+        System.out.println(res);
         if (!res) return false;
         res &= pairing.pairing(X, signatureBody.getA()).mul(pairing.pairing(X, signatureBody.getB()).powZn(c))
                 .equals(pairing.pairing(g, signatureBody.getC()));
@@ -132,20 +134,20 @@ public class CLSignature {
         this.g = g;
     }
 
-    public Element getX() {
-        return x;
+    public Element getSx() {
+        return sx;
     }
 
-    public void setX(Element x) {
-        this.x = x;
+    public void setSx(Element sx) {
+        this.sx = sx;
     }
 
-    public Element getY() {
-        return y;
+    public Element getSy() {
+        return sy;
     }
 
-    public void setY(Element y) {
-        this.y = y;
+    public void setSy(Element sy) {
+        this.sy = sy;
     }
 
     public Pairing getPairing() {
@@ -154,5 +156,21 @@ public class CLSignature {
 
     public void setPairing(Pairing pairing) {
         this.pairing = pairing;
+    }
+
+    public Element getX() {
+        return X;
+    }
+
+    public void setX(Element x) {
+        X = x;
+    }
+
+    public Element getY() {
+        return Y;
+    }
+
+    public void setY(Element y) {
+        Y = y;
     }
 }
